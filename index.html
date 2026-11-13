@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio - นาย ฐานวัฒน์ นันต์ธนาลินต์</title>
+    <!-- นำเข้า Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- นำเข้าฟอนต์ภาษาไทย Prompt และ Sarabun จาก Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&family=Sarabun:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <!-- นำเข้า Font Awesome สำหรับไอคอน -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Prompt', 'sans-serif'],
+                        body: ['Sarabun', 'sans-serif'],
+                    },
+                    colors: {
+                        psuBlue: '#3b4998',     /* สีน้ำเงินหลักตามธีมในรูป */
+                        psuGreen: '#8cc63f',    /* สีเขียวอ่อนตามธีมในรูป */
+                        psuDarkGreen: '#689f38' /* สีเขียวเข้มสำหรับ Hover/Accent */
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* ปรับแต่ง Animation การเปลี่ยนหน้าแท็บ */
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.4s ease-in-out;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        /* ปรับแต่ง Scrollbar ให้ดูสะอาดตา */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #3b4998;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #8cc63f;
+        }
+    </style>
+</head>
+<body class="bg-white text-slate-800 font-sans antialiased min-h-screen flex flex-col">
+
+    <!-- ==================== แถบเมนูนำทาง (Navigation Bar) ==================== -->
+    <header class="sticky top-0 z-50 bg-gradient-to-r from-[#3b4998] via-[#2e5a88] to-[#5a9e3b] text-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16 md:h-20">
+                
+                <!-- โลโก้ / ชื่อเว็บไซต์ -->
+                <div class="flex items-center space-x-3 cursor-pointer" onclick="switchTab('home')">
+                    <div class="w-10 h-10 rounded-full bg-white text-[#3b4998] flex items-center justify-center font-bold text-xl shadow-md border-2 border-[#8cc63f]">
+                        <i class="fa-solid fa-truck-medical"></i>
+                    </div>
+                    <div>
+                        <span class="font-bold text-lg md:text-xl tracking-wide block leading-tight">PORTFOLIO</span>
+                        <span class="text-xs text-[#d9f99d] font-light block">นาย ฐานวัฒน์ นันต์ธนาลินต์</span>
+                    </div>
+                </div>
+
+                <!-- เมนูสำหรับหน้าจอขนาดใหญ่ (Desktop Menu) -->
+                <nav class="hidden lg:flex space-x-1 xl:space-x-2 items-center">
+                    <button onclick="switchTab('home')" id="nav-home" class="nav-btn active-nav px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 bg-white/20 text-white shadow-sm border-b-2 border-[#8cc63f]">
+                        <i class="fa-solid fa-house mr-1.5"></i>หน้าปก (Home)
+                    </button>
+                    <button onclick="switchTab('work-romsai')" id="nav-work-romsai" class="nav-btn px-3 py-2 rounded-lg text-sm font-medium text-white/90 hover:bg-white/15 hover:text-white transition-all duration-200">
+                        <i class="fa-solid fa-hand-holding-medical mr-1.5"></i>จิตอาสา: มูลนิธิกู้ภัยร่มไทร
+                    </button>
+                    <button onclick="switchTab('work-rama')" id="nav-work-rama" class="nav-btn px-3 py-2 rounded-lg text-sm font-medium text-white/90 hover:bg-white/15 hover:text-white transition-all duration-200">
+                        <i class="fa-solid fa-hospital mr-1.5"></i>จิตอาสา: รพ.รามาธิบดี
+                    </button>
+                    <button onclick="switchTab('activity-1')" id="nav-activity-1" class="nav-btn px-3 py-2 rounded-lg text-sm font-medium text-white/90 hover:bg-white/15 hover:text-white transition-all duration-200">
+                        <i class="fa-solid fa-stethoscope mr-1.5"></i>กิจกรรม (1)
+                    </button>
+                    <button onclick="switchTab('activity-2')" id="nav-activity-2" class="nav-btn px-3 py-2 rounded-lg text-sm font-medium text-white/90 hover:bg-white/15 hover:text-white transition-all duration-200">
+                        <i class="fa-solid fa-user-doctor mr-1.5"></i>กิจกรรม (2)
+                    </button>
+                    <button onclick="switchTab('activity-3')" id="nav-activity-3" class="nav-btn px-3 py-2 rounded-lg text-sm font-medium text-white/90 hover:bg-white/15 hover:text-white transition-all duration-200">
+                        <i class="fa-solid fa-microscope mr-1.5"></i>กิจกรรม (3)
+                    </button>
+                    <button onclick="switchTab('training')" id="nav-training" class="nav-btn px-3 py-2 rounded-lg text-sm font-medium text-white/90 hover:bg-white/15 hover:text-white transition-all duration-200">
+                        <i class="fa-solid fa-certificate mr-1.5"></i>Online Training
+                    </button>
+                </nav>
+
+                <!-- ปุ่มเมนู Hamburger สำหรับมือถือและแท็บเล็ต -->
+                <div class="flex items-center lg:hidden">
+                    <button id="hamburger-btn" type="button" aria-label="เปิดเมนู" class="p-2.5 rounded-xl bg-white/15 hover:bg-white/25 text-white focus:outline-none focus:ring-2 focus:ring-[#8cc63f] transition">
+                        <i id="hamburger-icon" class="fa-solid fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- เมนูแบบเลื่อนลงเมื่อกดปุ่ม Hamburger (Mobile Dropdown Menu) -->
+        <div id="mobile-menu" class="hidden lg:hidden bg-gradient-to-b from-[#2c387e] to-[#3f7a29] border-t border-white/20 shadow-2xl">
+            <div class="px-4 pt-3 pb-5 space-y-2">
+                <button onclick="switchTabMobile('home')" id="m-nav-home" class="m-nav-btn w-full text-left px-4 py-3 rounded-xl text-base font-medium bg-white/20 text-white flex items-center justify-between">
+                    <span><i class="fa-solid fa-house w-6 text-[#8cc63f]"></i> หน้าปก (Cover - 01.JPG)</span>
+                    <i class="fa-solid fa-chevron-right text-xs opacity-70"></i>
+                </button>
+                <button onclick="switchTabMobile('work-romsai')" id="m-nav-work-romsai" class="m-nav-btn w-full text-left px-4 py-3 rounded-xl text-base font-medium text-white/90 hover:bg-white/15 flex items-center justify-between">
+                    <span><i class="fa-solid fa-hand-holding-medical w-6 text-[#8cc63f]"></i> Work จิตอาสา : มูลนิธิกู้ภัยร่มไทร</span>
+                    <i class="fa-solid fa-chevron-right text-xs opacity-70"></i>
+                </button>
+                <button onclick="switchTabMobile('work-rama')" id="m-nav-work-rama" class="m-nav-btn w-full text-left px-4 py-3 rounded-xl text-base font-medium text-white/90 hover:bg-white/15 flex items-center justify-between">
+                    <span><i class="fa-solid fa-hospital w-6 text-[#8cc63f]"></i> Work จิตอาสา : โรงพยาบาลรามาธิบดี</span>
+                    <i class="fa-solid fa-chevron-right text-xs opacity-70"></i>
+                </button>
+                <button onclick="switchTabMobile('activity-1')" id="m-nav-activity-1" class="m-nav-btn w-full text-left px-4 py-3 rounded-xl text-base font-medium text-white/90 hover:bg-white/15 flex items-center justify-between">
+                    <span><i class="fa-solid fa-stethoscope w-6 text-[#8cc63f]"></i> Activity : Health Science & กายวิภาคฯ</span>
+                    <i class="fa-solid fa-chevron-right text-xs opacity-70"></i>
+                </button>
+                <button onclick="switchTabMobile('activity-2')" id="m-nav-activity-2" class="m-nav-btn w-full text-left px-4 py-3 rounded-xl text-base font-medium text-white/90 hover:bg-white/15 flex items-center justify-between">
+                    <span><i class="fa-solid fa-user-doctor w-6 text-[#8cc63f]"></i> Activity : PYH MED Camp & สู่ฝันวันเป็นหมอ</span>
+                    <i class="fa-solid fa-chevron-right text-xs opacity-70"></i>
+                </button>
+                <button onclick="switchTabMobile('activity-3')" id="m-nav-activity-3" class="m-nav-btn w-full text-left px-4 py-3 rounded-xl text-base font-medium text-white/90 hover:bg-white/15 flex items-center justify-between">
+                    <span><i class="fa-solid fa-microscope w-6 text-[#8cc63f]"></i> Activity : DNA Detection & นิติเวชศาสตร์</span>
+                    <i class="fa-solid fa-chevron-right text-xs opacity-70"></i>
+                </button>
+                <button onclick="switchTabMobile('training')" id="m-nav-training" class="m-nav-btn w-full text-left px-4 py-3 rounded-xl text-base font-medium text-white/90 hover:bg-white/15 flex items-center justify-between">
+                    <span><i class="fa-solid fa-certificate w-6 text-[#8cc63f]"></i> Online Training : ฉุกเฉินการแพทย์</span>
+                    <i class="fa-solid fa-chevron-right text-xs opacity-70"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- ==================== พื้นที่แสดงเนื้อหาหลัก (Main Content) ==================== -->
+    <main class="flex-grow max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+        <!-- 1. หน้าแรก: หน้าปก (ใช้ไฟล์ 01.JPG) -->
+        <section id="tab-home" class="tab-content active">
+            <div class="bg-white rounded-3xl shadow-xl border border-slate-100 overflow-hidden">
+                <!-- แถบหัวข้อด้านบน -->
+                <div class="bg-gradient-to-r from-[#3b4998] to-[#689f38] px-6 py-4 text-white flex flex-wrap items-center justify-between gap-2">
+                    <div>
+                        <span class="text-xs uppercase tracking-wider bg-white/20 px-2.5 py-1 rounded-full font-semibold">Portfolio Cover</span>
+                        <h1 class="text-xl sm:text-2xl font-bold mt-1">คณะแพทยศาสตร์ สาขาวิชาปฏิบัติการฉุกเฉินการแพทย์</h1>
+                    </div>
+                    <p class="text-sm text-white/90">มหาวิทยาลัยสงขลานครินทร์ (Prince of Songkla University)</p>
+                </div>
+
+                <!-- แสดงรูปภาพหน้าปก 01.JPG แบบเต็มความชัดและรองรับทุกหน้าจอ -->
+                <div class="p-4 sm:p-8 bg-slate-50 flex flex-col items-center">
+                    <div class="relative max-w-2xl w-full rounded-2xl overflow-hidden shadow-2xl border-4 border-white group">
+                        <img src="01.JPG" 
+                             onerror="this.onerror=null; this.src='https://placehold.co/800x1131/3b4998/ffffff?text=01.JPG+-+Portfolio+Cover';" 
+                             alt="หน้าปก Portfolio นาย ฐานวัฒน์ นันต์ธนาลินต์" 
+                             class="w-full h-auto object-contain mx-auto transition-transform duration-300 group-hover:scale-[1.01]">
+                        <button onclick="openLightbox('01.JPG', 'หน้าปก Portfolio - นาย ฐานวัฒน์ นันต์ธนาลินต์')" class="absolute bottom-4 right-4 bg-[#3b4998]/90 hover:bg-[#689f38] text-white px-4 py-2 rounded-full text-sm font-medium shadow-lg backdrop-blur-sm transition flex items-center gap-2">
+                            <i class="fa-solid fa-magnifying-glass-plus"></i> ขยายดูภาพเต็ม
+                        </button>
+                    </div>
+
+                    <!-- ปุ่มนำทางด่วนไปยังส่วนต่างๆ -->
+                    <div class="mt-8 w-full max-w-3xl">
+                        <p class="text-center text-slate-500 text-sm mb-4">เลือกหัวข้อเพื่อเข้าชมผลงานและเกียรติบัตร</p>
+                        <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                            <button onclick="switchTab('work-romsai')" class="p-3 rounded-xl bg-white border border-slate-200 hover:border-[#3b4998] hover:shadow-md transition text-left flex items-center gap-3">
+                                <span class="w-8 h-8 rounded-lg bg-[#3b4998]/10 text-[#3b4998] flex items-center justify-center font-bold">02</span>
+                                <span class="text-xs sm:text-sm font-semibold text-slate-700">กู้ภัยร่มไทร</span>
+                            </button>
+                            <button onclick="switchTab('work-rama')" class="p-3 rounded-xl bg-white border border-slate-200 hover:border-[#3b4998] hover:shadow-md transition text-left flex items-center gap-3">
+                                <span class="w-8 h-8 rounded-lg bg-[#3b4998]/10 text-[#3b4998] flex items-center justify-center font-bold">03</span>
+                                <span class="text-xs sm:text-sm font-semibold text-slate-700">รพ.รามาธิบดี</span>
+                            </button>
+                            <button onclick="switchTab('activity-1')" class="p-3 rounded-xl bg-white border border-slate-200 hover:border-[#689f38] hover:shadow-md transition text-left flex items-center gap-3">
+                                <span class="w-8 h-8 rounded-lg bg-[#8cc63f]/20 text-[#689f38] flex items-center justify-center font-bold">04</span>
+                                <span class="text-xs sm:text-sm font-semibold text-slate-700">กิจกรรม (1)</span>
+                            </button>
+                            <button onclick="switchTab('activity-2')" class="p-3 rounded-xl bg-white border border-slate-200 hover:border-[#689f38] hover:shadow-md transition text-left flex items-center gap-3">
+                                <span class="w-8 h-8 rounded-lg bg-[#8cc63f]/20 text-[#689f38] flex items-center justify-center font-bold">05</span>
+                                <span class="text-xs sm:text-sm font-semibold text-slate-700">กิจกรรม (2)</span>
+                            </button>
+                            <button onclick="switchTab('activity-3')" class="p-3 rounded-xl bg-white border border-slate-200 hover:border-[#689f38] hover:shadow-md transition text-left flex items-center gap-3">
+                                <span class="w-8 h-8 rounded-lg bg-[#8cc63f]/20 text-[#689f38] flex items-center justify-center font-bold">06</span>
+                                <span class="text-xs sm:text-sm font-semibold text-slate-700">กิจกรรม (3)</span>
+                            </button>
+                            <button onclick="switchTab('training')" class="p-3 rounded-xl bg-white border border-slate-200 hover:border-[#3b4998] hover:shadow-md transition text-left flex items-center gap-3">
+                                <span class="w-8 h-8 rounded-lg bg-[#3b4998]/10 text-[#3b4998] flex items-center justify-center font-bold">07</span>
+                                <span class="text-xs sm:text-sm font-semibold text-slate-700">Online Training</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. แท็บ: Work จิตอาสา - มูลนิธิกู้ภัยร่มไทร (ใช้ไฟล์ 02.JPG) -->
+        <section id="tab-work-romsai" class="tab-content">
+            <div class="bg-white rounded-3xl shadow-xl border border-slate-100 overflow-hidden">
+                <div class="bg-gradient-to-r from-[#3b4998] to-[#5a9e3b] px-6 py-5 text-white">
+                    <div class="flex items-center gap-2 text-sm text-[#d9f99d] font-medium mb-1">
+                        <i class="fa-solid fa-award"></i> <span>Work จิตอาสา</span>
+                    </div>
+                    <h2 class="text-2xl sm:text-3xl font-bold">มูลนิธิกู้ภัยร่มไทร</h2>
+                    <p class="text-sm text-white/90 mt-1">ฝึกประสบการณ์ด้านฉุกเฉินการแพทย์ ระยะเวลา 136 ชั่วโมง (จำนวน 30-35 เคส)</p>
+                </div>
+
+                <div class="p-4 sm:p-8 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                    <!-- รูปภาพ 02.JPG -->
+                    <div class="lg:col-span-7 flex flex-col items-center">
+                        <div class="relative w-full rounded-2xl overflow-hidden shadow-lg border border-slate-200">
+                            <img src="02.JPG" 
+                                 onerror="this.onerror=null; this.src='https://placehold.co/800x1131/ffffff/3b4998?text=02.JPG+-+Work+จิตอาสา+มูลนิธิกู้ภัยร่มไทร';" 
+                                 alt="Work จิตอาสา มูลนิธิกู้ภัยร่มไทร" 
+                                 class="w-full h-auto object-contain">
+                            <button onclick="openLightbox('02.JPG', 'Work จิตอาสา - มูลนิธิกู้ภัยร่มไทร')" class="absolute bottom-3 right-3 bg-[#3b4998]/90 hover:bg-[#689f38] text-white px-3.5 py-2 rounded-full text-xs sm:text-sm font-medium shadow-md transition flex items-center gap-1.5">
+                                <i class="fa-solid fa-expand"></i> ขยายภาพเอกสาร
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- สรุปข้อมูลเนื้อหาจากภาพ 02.JPG -->
+                    <div class="lg:col-span-5 space-y-5 font-body">
+                        <div class="p-5 rounded-2xl bg-slate-50 border-l-4 border-[#3b4998]">
+                            <h3 class="font-sans font-bold text-lg text-[#3b4998] mb-2">รายละเอียดการปฏิบัติงาน</h3>
+                            <p class="text-slate-700 leading-relaxed text-base">
+                                ฝึกประสบการณ์ด้านฉุกเฉินการแพทย์ จิตอาสากู้ภัยร่มไทร <strong>ระยะเวลา 136 ชั่วโมง จำนวน 30-35 เคส</strong> ได้รับประสบการณ์ช่วยผู้ป่วยในสถานการณ์จริง:
+                            </p>
+                            <ul class="mt-3 space-y-2 text-slate-700">
+                                <li class="flex items-start gap-2">
+                                    <i class="fa-solid fa-circle-check text-[#689f38] mt-1"></i>
+                                    <span><strong>ผู้ป่วยสูงอายุ:</strong> วัดความดันโลหิต วัดระดับออกซิเจนในเลือด และจดบันทึกสัญญาณชีพ</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <i class="fa-solid fa-circle-check text-[#689f38] mt-1"></i>
+                                    <span><strong>อุบัติเหตุจราจร:</strong> ล้างแผล ปฐมพยาบาลเบื้องต้น และปฏิบัติตามคำแนะนำของพี่กู้ภัย</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="p-5 rounded-2xl bg-[#8cc63f]/10 border border-[#8cc63f]/30">
+                            <h3 class="font-sans font-bold text-lg text-[#4d7c0f] mb-2">สิ่งที่ได้เรียนรู้</h3>
+                            <p class="text-slate-700 leading-relaxed text-base">
+                                เรียนรู้ทั้งด้านทฤษฎีและการปฏิบัติจริง เข้าใจถึงความสำคัญของความละเอียดรอบคอบ ความใจเย็น และความรับผิดชอบในหน้าที่การทำงานที่เกี่ยวข้องกับ <strong>"นาทีชีวิต"</strong> สร้างแรงบันดาลใจในการมุ่งมั่นสู่เส้นทางนักฉุกเฉินการแพทย์ในอนาคต
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. แท็บ: Work จิตอาสา - โรงพยาบาลรามาธิบดี (ใช้ไฟล์ 03.JPG) -->
+        <section id="tab-work-rama" class="tab-content">
+            <div class="bg-white rounded-3xl shadow-xl border border-slate-100 overflow-hidden">
+                <div class="bg-gradient-to-r from-[#3b4998] to-[#5a9e3b] px-6 py-5 text-white">
+                    <div class="flex items-center gap-2 text-sm text-[#d9f99d] font-medium mb-1">
+                        <i class="fa-solid fa-award"></i> <span>Work จิตอาสา</span>
+                    </div>
+                    <h2 class="text-2xl sm:text-3xl font-bold">โรงพยาบาลรามาธิบดี</h2>
+                    <p class="text-sm text-white/90 mt-1">คณะแพทยศาสตร์โรงพยาบาลรามาธิบดี มหาวิทยาลัยมหิดล (ระยะเวลา 24 ชั่วโมง)</p>
+                </div>
+
+                <div class="p-4 sm:p-8 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                    <div class="lg:col-span-7 flex flex-col items-center">
+                        <div class="relative w-full rounded-2xl overflow-hidden shadow-lg border border-slate-200">
+                            <img src="03.JPG" 
+                                 onerror="this.onerror=null; this.src='https://placehold.co/800x1131/ffffff/3b4998?text=03.JPG+-+Work+จิตอาสา+โรงพยาบาลรามาธิบดี';" 
+                                 alt="Work จิตอาสา โรงพยาบาลรามาธิบดี" 
+                                 class="w-full h-auto object-contain">
+                            <button onclick="openLightbox('03.JPG', 'Work จิตอาสา - โรงพยาบาลรามาธิบดี')" class="absolute bottom-3 right-3 bg-[#3b4998]/90 hover:bg-[#689f38] text-white px-3.5 py-2 rounded-full text-xs sm:text-sm font-medium shadow-md transition flex items-center gap-1.5">
+                                <i class="fa-solid fa-expand"></i> ขยายภาพเอกสาร
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-5 space-y-5 font-body">
+                        <div class="p-5 rounded-2xl bg-slate-50 border-l-4 border-[#3b4998]">
+                            <h3 class="font-sans font-bold text-lg text-[#3b4998] mb-2">บทบาทหน้าที่จิตอาสา</h3>
+                            <p class="text-slate-700 leading-relaxed text-base">
+                                เข้าร่วมกิจกรรมจิตอาสารามาธิบดี <strong>ระยะเวลา 24 ชั่วโมง</strong> (วันที่ 5 - 7 มกราคม พ.ศ. 2569) เรียนรู้วิธีการช่วยเหลือ ดูแล และอำนวยความสะดวกให้กับผู้ป่วยภายในโรงพยาบาล:
+                            </p>
+                            <ul class="mt-3 space-y-2 text-slate-700">
+                                <li class="flex items-start gap-2">
+                                    <i class="fa-solid fa-circle-check text-[#689f38] mt-1"></i>
+                                    <span>วัดส่วนสูงและชั่งน้ำหนักผู้ป่วยก่อนเข้ารับการตรวจ</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <i class="fa-solid fa-circle-check text-[#689f38] mt-1"></i>
+                                    <span>จัดเรียงและนำส่งเอกสารผู้ป่วยให้กับแพทย์เพื่อเตรียมการรักษา</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="p-5 rounded-2xl bg-[#8cc63f]/10 border border-[#8cc63f]/30">
+                            <h3 class="font-sans font-bold text-lg text-[#4d7c0f] mb-2">ประสบการณ์ที่ได้รับ</h3>
+                            <p class="text-slate-700 leading-relaxed text-base">
+                                ทำให้ได้เห็นการทำงานอีกหนึ่งหน้าที่สำคัญในระบบบริการสุขภาพของโรงพยาบาล การสื่อสารและดูแลผู้ป่วยด้วยความใส่ใจและเป็นระบบ
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. แท็บ: Activity กิจกรรม (1) - Health Science & กายวิภาคศาสตร์ (ใช้ไฟล์ 04.JPG) -->
+        <section id="tab-activity-1" class="tab-content">
+            <div class="bg-white rounded-3xl shadow-xl border border-slate-100 overflow-hidden">
+                <div class="bg-gradient-to-r from-[#3b4998] to-[#5a9e3b] px-6 py-5 text-white">
+                    <div class="flex items-center gap-2 text-sm text-[#d9f99d] font-medium mb-1">
+                        <i class="fa-solid fa-star"></i> <span>Activity กิจกรรม (หน้า 1)</span>
+                    </div>
+                    <h2 class="text-2xl sm:text-3xl font-bold">Health Science Next Gen & กายวิภาคศาสตร์</h2>
+                    <p class="text-sm text-white/90 mt-1">ราชวิทยาลัยจุฬาภรณ์ และ คณะวิทยาศาสตร์ มหาวิทยาลัยมหิดล</p>
+                </div>
+
+                <div class="p-4 sm:p-8 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                    <div class="lg:col-span-7 flex flex-col items-center">
+                        <div class="relative w-full rounded-2xl overflow-hidden shadow-lg border border-slate-200">
+                            <img src="04.JPG" 
+                                 onerror="this.onerror=null; this.src='https://placehold.co/800x1131/ffffff/3b4998?text=04.JPG+-+Activity+Health+Science+%26+Anatomy';" 
+                                 alt="Activity Health Science Next Gen และ กายวิภาคศาสตร์" 
+                                 class="w-full h-auto object-contain">
+                            <button onclick="openLightbox('04.JPG', 'Activity - Health Science Next Gen & กายวิภาคศาสตร์')" class="absolute bottom-3 right-3 bg-[#3b4998]/90 hover:bg-[#689f38] text-white px-3.5 py-2 rounded-full text-xs sm:text-sm font-medium shadow-md transition flex items-center gap-1.5">
+                                <i class="fa-solid fa-expand"></i> ขยายภาพเอกสาร
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-5 space-y-5 font-body">
+                        <div class="p-5 rounded-2xl bg-slate-50 border-l-4 border-[#689f38]">
+                            <h3 class="font-sans font-bold text-lg text-[#3b4998] mb-1">1. Health Science Next Gen ราชวิทยาลัยจุฬาภรณ์</h3>
+                            <span class="inline-block text-xs bg-[#3b4998]/10 text-[#3b4998] px-2.5 py-0.5 rounded-full font-semibold mb-2">10 ตุลาคม 2569</span>
+                            <p class="text-slate-700 leading-relaxed text-base">
+                                เข้าร่วมกิจกรรม CRA Open House 2027 เรียนรู้และลงมือปฏิบัติการทำ <strong>CPR</strong>, การใช้เครื่องกระตุกหัวใจไฟฟ้าอัตโนมัติ (<strong>AED</strong>) และการใช้งานเครื่องมือกู้ชีพภายในรถพยาบาลฉุกเฉิน
+                            </p>
+                        </div>
+
+                        <div class="p-5 rounded-2xl bg-slate-50 border-l-4 border-[#3b4998]">
+                            <h3 class="font-sans font-bold text-lg text-[#3b4998] mb-1">2. กายวิภาคศาสตร์ มหาวิทยาลัยมหิดล</h3>
+                            <span class="inline-block text-xs bg-[#8cc63f]/20 text-[#4d7c0f] px-2.5 py-0.5 rounded-full font-semibold mb-2">27 มิถุนายน 2569</span>
+                            <p class="text-slate-700 leading-relaxed text-base">
+                                เข้าร่วมอบรมโครงการสร้างเสริมความรู้ทางกายวิภาคศาสตร์ ภาควิชากายวิภาคศาสตร์ คณะวิทยาศาสตร์ มหาวิทยาลัยมหิดล เรียนรู้โครงสร้างและระบบภายในร่างกายของอาจารย์ใหญ่ และฝึกการวินิจฉัยโรค
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. แท็บ: Activity กิจกรรม (2) - PYH MED Camp & ค่ายสู่ฝันวันเป็นหมอ (ใช้ไฟล์ 05.JPG) -->
+        <section id="tab-activity-2" class="tab-content">
+            <div class="bg-white rounded-3xl shadow-xl border border-slate-100 overflow-hidden">
+                <div class="bg-gradient-to-r from-[#3b4998] to-[#5a9e3b] px-6 py-5 text-white">
+                    <div class="flex items-center gap-2 text-sm text-[#d9f99d] font-medium mb-1">
+                        <i class="fa-solid fa-star"></i> <span>Activity กิจกรรม (หน้า 2)</span>
+                    </div>
+                    <h2 class="text-2xl sm:text-3xl font-bold">PYH MED Camp & ค่ายสู่ฝันวันเป็นหมอ ครั้งที่ 31</h2>
+                    <p class="text-sm text-white/90 mt-1">โรงพยาบาลปิยะเวท และ คณะแพทยศาสตร์ มหาวิทยาลัยศรีนครินทรวิโรฒ</p>
+                </div>
+
+                <div class="p-4 sm:p-8 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                    <div class="lg:col-span-7 flex flex-col items-center">
+                        <div class="relative w-full rounded-2xl overflow-hidden shadow-lg border border-slate-200">
+                            <img src="05.JPG" 
+                                 onerror="this.onerror=null; this.src='https://placehold.co/800x1131/ffffff/3b4998?text=05.JPG+-+Activity+PYH+MED+Camp+%26+SWU';" 
+                                 alt="Activity PYH MED Camp และ ค่ายสู่ฝันวันเป็นหมอ" 
+                                 class="w-full h-auto object-contain">
+                            <button onclick="openLightbox('05.JPG', 'Activity - PYH MED Camp & ค่ายสู่ฝันวันเป็นหมอ ครั้งที่ 31')" class="absolute bottom-3 right-3 bg-[#3b4998]/90 hover:bg-[#689f38] text-white px-3.5 py-2 rounded-full text-xs sm:text-sm font-medium shadow-md transition flex items-center gap-1.5">
+                                <i class="fa-solid fa-expand"></i> ขยายภาพเอกสาร
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-5 space-y-5 font-body">
+                        <div class="p-5 rounded-2xl bg-slate-50 border-l-4 border-[#689f38]">
+                            <h3 class="font-sans font-bold text-lg text-[#3b4998] mb-1">1. PYH MED Camp โรงพยาบาลปิยะเวท</h3>
+                            <span class="inline-block text-xs bg-[#3b4998]/10 text-[#3b4998] px-2.5 py-0.5 rounded-full font-semibold mb-2">2 เมษายน 2569</span>
+                            <p class="text-slate-700 leading-relaxed text-base">
+                                ศึกษาดูงานระบบสาธารณสุขผ่านแผนกฉุกเฉิน แผนกกายภาพบำบัด ศูนย์การแพทย์มะเร็งและรังสีรักษา และฝึกปฏิบัติทักษะการรักษาพยาบาลเบื้องต้น เช่น <strong>การห้ามเลือด การดามกระดูกคอและแขน</strong>
+                            </p>
+                        </div>
+
+                        <div class="p-5 rounded-2xl bg-slate-50 border-l-4 border-[#3b4998]">
+                            <h3 class="font-sans font-bold text-lg text-[#3b4998] mb-1">2. ค่ายสู่ฝันวันเป็นหมอ ครั้งที่ 31 มศว</h3>
+                            <span class="inline-block text-xs bg-[#8cc63f]/20 text-[#4d7c0f] px-2.5 py-0.5 rounded-full font-semibold mb-2">31 มกราคม - 1 กุมภาพันธ์ 2569</span>
+                            <p class="text-slate-700 leading-relaxed text-base">
+                                จำลองเส้นทางการศึกษาแพทย์ทั้งภาคทฤษฎีและภาคปฏิบัติ เรียนรู้หัตถการเบื้องต้น เช่น <strong>การทำคลอด การสอดท่อช่วยหายใจ และการเจาะน้ำไขสันหลัง</strong>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. แท็บ: Activity กิจกรรม (3) - DNA Detection & ห้องเรียนจำลองนิติเวชศาสตร์ (ใช้ไฟล์ 06.JPG) -->
+        <section id="tab-activity-3" class="tab-content">
+            <div class="bg-white rounded-3xl shadow-xl border border-slate-100 overflow-hidden">
+                <div class="bg-gradient-to-r from-[#3b4998] to-[#5a9e3b] px-6 py-5 text-white">
+                    <div class="flex items-center gap-2 text-sm text-[#d9f99d] font-medium mb-1">
+                        <i class="fa-solid fa-star"></i> <span>Activity กิจกรรม (หน้า 3)</span>
+                    </div>
+                    <h2 class="text-2xl sm:text-3xl font-bold">DNA Detection & ห้องเรียนจำลองนิติเวชศาสตร์</h2>
+                    <p class="text-sm text-white/90 mt-1">มหาวิทยาลัยมหิดล และ สถาบันการแพทย์จักรีนฤบดินทร์</p>
+                </div>
+
+                <div class="p-4 sm:p-8 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                    <div class="lg:col-span-7 flex flex-col items-center">
+                        <div class="relative w-full rounded-2xl overflow-hidden shadow-lg border border-slate-200">
+                            <img src="06.JPG" 
+                                 onerror="this.onerror=null; this.src='https://placehold.co/800x1131/ffffff/3b4998?text=06.JPG+-+Activity+DNA+%26+Forensic';" 
+                                 alt="Activity DNA Detection และ ห้องเรียนจำลองนิติเวชศาสตร์" 
+                                 class="w-full h-auto object-contain">
+                            <button onclick="openLightbox('06.JPG', 'Activity - DNA Detection & ห้องเรียนจำลองนิติเวชศาสตร์')" class="absolute bottom-3 right-3 bg-[#3b4998]/90 hover:bg-[#689f38] text-white px-3.5 py-2 rounded-full text-xs sm:text-sm font-medium shadow-md transition flex items-center gap-1.5">
+                                <i class="fa-solid fa-expand"></i> ขยายภาพเอกสาร
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-5 space-y-5 font-body">
+                        <div class="p-5 rounded-2xl bg-slate-50 border-l-4 border-[#689f38]">
+                            <h3 class="font-sans font-bold text-lg text-[#3b4998] mb-1">1. DNA Detection Using Biochemistry and Molecular Biology Techniques</h3>
+                            <span class="inline-block text-xs bg-[#3b4998]/10 text-[#3b4998] px-2.5 py-0.5 rounded-full font-semibold mb-2">ภาควิชาชีวเคมี คณะวิทยาศาสตร์ ม.มหิดล</span>
+                            <p class="text-slate-700 leading-relaxed text-base">
+                                เข้าร่วมอบรมเชิงปฏิบัติการด้านเทคนิคชีวเคมีและอณูชีววิทยาในการตรวจวิเคราะห์สารพันธุกรรม (DNA) และทักษะการปฏิบัติการทางวิทยาศาสตร์การแพทย์
+                            </p>
+                        </div>
+
+                        <div class="p-5 rounded-2xl bg-slate-50 border-l-4 border-[#3b4998]">
+                            <h3 class="font-sans font-bold text-lg text-[#3b4998] mb-1">2. ห้องเรียนจำลองนิติเวชศาสตร์ สถาบันการแพทย์จักรีนฤบดินทร์</h3>
+                            <span class="inline-block text-xs bg-[#8cc63f]/20 text-[#4d7c0f] px-2.5 py-0.5 rounded-full font-semibold mb-2">30 มีนาคม 2567</span>
+                            <p class="text-slate-700 leading-relaxed text-base">
+                                เข้าร่วมชมการทำงานภายในห้องดับจิต เรียนรู้บทบาทของแพทย์นิติเวชศาสตร์ ชมการชันสูตรพลิกศพจริง และศึกษาอวัยวะภายในส่วนต่างๆ ของร่างกายมนุษย์
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 7. แท็บ: Online Training ฉุกเฉินการแพทย์ (ใช้ไฟล์ 07.JPG) -->
+        <section id="tab-training" class="tab-content">
+            <div class="bg-white rounded-3xl shadow-xl border border-slate-100 overflow-hidden">
+                <div class="bg-gradient-to-r from-[#3b4998] to-[#5a9e3b] px-6 py-5 text-white">
+                    <div class="flex items-center gap-2 text-sm text-[#d9f99d] font-medium mb-1">
+                        <i class="fa-solid fa-laptop-medical"></i> <span>Online Training</span>
+                    </div>
+                    <h2 class="text-2xl sm:text-3xl font-bold">การอบรมออนไลน์ด้านฉุกเฉินการแพทย์ (10 หลักสูตร)</h2>
+                    <p class="text-sm text-white/90 mt-1">สถาบันการแพทย์ฉุกเฉินแห่งชาติ (สพฉ.), CHULA MOOC และ KUMOOC มหาวิทยาลัยเกษตรศาสตร์</p>
+                </div>
+
+                <div class="p-4 sm:p-8 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                    <div class="lg:col-span-7 flex flex-col items-center">
+                        <div class="relative w-full rounded-2xl overflow-hidden shadow-lg border border-slate-200">
+                            <img src="07.JPG" 
+                                 onerror="this.onerror=null; this.src='https://placehold.co/800x1131/ffffff/3b4998?text=07.JPG+-+Online+Training+ฉุกเฉินการแพทย์';" 
+                                 alt="Online Training ฉุกเฉินการแพทย์" 
+                                 class="w-full h-auto object-contain">
+                            <button onclick="openLightbox('07.JPG', 'Online Training - ฉุกเฉินการแพทย์')" class="absolute bottom-3 right-3 bg-[#3b4998]/90 hover:bg-[#689f38] text-white px-3.5 py-2 rounded-full text-xs sm:text-sm font-medium shadow-md transition flex items-center gap-1.5">
+                                <i class="fa-solid fa-expand"></i> ขยายภาพเกียรติบัตรทั้งหมด
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-5 space-y-4 font-body">
+                        <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200">
+                            <h3 class="font-sans font-bold text-lg text-[#3b4998] mb-3 flex items-center gap-2">
+                                <i class="fa-solid fa-list-check text-[#689f38]"></i> รายชื่อหลักสูตรที่ผ่านการอบรม
+                            </h3>
+                            <ol class="space-y-2.5 text-slate-700 text-sm sm:text-base">
+                                <li class="flex items-start gap-2.5 p-2 rounded-lg bg-white shadow-sm">
+                                    <span class="w-6 h-6 rounded-full bg-[#3b4998] text-white text-xs flex items-center justify-center flex-shrink-0 mt-0.5">1</span>
+                                    <span>กฎหมายที่เกี่ยวข้องอาสาฉุกเฉินชุมชน (สพฉ.)</span>
+                                </li>
+                                <li class="flex items-start gap-2.5 p-2 rounded-lg bg-white shadow-sm">
+                                    <span class="w-6 h-6 rounded-full bg-[#3b4998] text-white text-xs flex items-center justify-center flex-shrink-0 mt-0.5">2</span>
+                                    <span>การช่วยชีวิตขั้นพื้นฐานสำหรับผู้ใหญ่ (สพฉ.)</span>
+                                </li>
+                                <li class="flex items-start gap-2.5 p-2 rounded-lg bg-white shadow-sm">
+                                    <span class="w-6 h-6 rounded-full bg-[#3b4998] text-white text-xs flex items-center justify-center flex-shrink-0 mt-0.5">3</span>
+                                    <span>การใช้สิทธิ UCEP (สพฉ.)</span>
+                                </li>
+                                <li class="flex items-start gap-2.5 p-2 rounded-lg bg-white shadow-sm">
+                                    <span class="w-6 h-6 rounded-full bg-[#3b4998] text-white text-xs flex items-center justify-center flex-shrink-0 mt-0.5">4</span>
+                                    <span>การประเมินสถานการณ์ (สพฉ.)</span>
+                                </li>
+                                <li class="flex items-start gap-2.5 p-2 rounded-lg bg-white shadow-sm">
+                                    <span class="w-6 h-6 rounded-full bg-[#3b4998] text-white text-xs flex items-center justify-center flex-shrink-0 mt-0.5">5</span>
+                                    <span>การสร้างเครือข่ายและนโยบายอาสาฉุกเฉินชุมชน (สพฉ.)</span>
+                                </li>
+                                <li class="flex items-start gap-2.5 p-2 rounded-lg bg-white shadow-sm">
+                                    <span class="w-6 h-6 rounded-full bg-[#3b4998] text-white text-xs flex items-center justify-center flex-shrink-0 mt-0.5">6</span>
+                                    <span>ขั้นตอนการแจ้งเหตุ (สพฉ.)</span>
+                                </li>
+                                <li class="flex items-start gap-2.5 p-2 rounded-lg bg-white shadow-sm">
+                                    <span class="w-6 h-6 rounded-full bg-[#3b4998] text-white text-xs flex items-center justify-center flex-shrink-0 mt-0.5">7</span>
+                                    <span>ระบบปฏิบัติการการแพทย์ฉุกเฉิน (สพฉ.)</span>
+                                </li>
+                                <li class="flex items-start gap-2.5 p-2 rounded-lg bg-white shadow-sm">
+                                    <span class="w-6 h-6 rounded-full bg-[#689f38] text-white text-xs flex items-center justify-center flex-shrink-0 mt-0.5">8</span>
+                                    <span>การช่วยฟื้นคืนชีพขั้นพื้นฐาน Basic Life Support (CHULA MOOC)</span>
+                                </li>
+                                <li class="flex items-start gap-2.5 p-2 rounded-lg bg-white shadow-sm">
+                                    <span class="w-6 h-6 rounded-full bg-[#689f38] text-white text-xs flex items-center justify-center flex-shrink-0 mt-0.5">9</span>
+                                    <span>การทำแผล (KUMOOC มหาวิทยาลัยเกษตรศาสตร์)</span>
+                                </li>
+                                <li class="flex items-start gap-2.5 p-2 rounded-lg bg-white shadow-sm">
+                                    <span class="w-6 h-6 rounded-full bg-[#689f38] text-white text-xs flex items-center justify-center flex-shrink-0 mt-0.5">10</span>
+                                    <span>การพยาบาลผู้ป่วยที่ได้รับออกซิเจน (KUMOOC ม.เกษตรศาสตร์)</span>
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ==================== ส่วนท้ายเว็บไซต์ (Footer) ==================== -->
+    <footer class="bg-slate-50 border-t border-slate-200 mt-12">
+        <div class="max-w-6xl mx-auto px-4 py-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-slate-600">
+            <div class="flex items-center gap-2">
+                <span class="w-3 h-3 rounded-full bg-[#3b4998]"></span>
+                <span class="w-3 h-3 rounded-full bg-[#8cc63f]"></span>
+                <span class="font-semibold text-slate-800">นาย ฐานวัฒน์ นันต์ธนาลินต์</span>
+            </div>
+            <p class="text-center sm:text-right text-xs sm:text-sm">
+                "ทฤษฎีในตำรา จะมีค่าสูงสุดเมื่อถูกประยุกต์ใช้ในนาทีชีวิต"
+            </p>
+        </div>
+    </footer>
+
+    <!-- ==================== หน้าต่างขยายรูปภาพ (Lightbox Modal) ==================== -->
+    <div id="lightbox-modal" class="fixed inset-0 z-50 hidden bg-black/85 backdrop-blur-sm flex items-center justify-center p-4" onclick="closeLightbox()">
+        <div class="relative max-w-4xl w-full max-h-[92vh] flex flex-col items-center" onclick="event.stopPropagation()">
+            <div class="w-full flex justify-between items-center text-white mb-2 px-2">
+                <span id="lightbox-title" class="font-medium text-sm sm:text-base"></span>
+                <button onclick="closeLightbox()" class="w-9 h-9 rounded-full bg-white/20 hover:bg-red-500 text-white flex items-center justify-center transition">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+            <div class="overflow-auto max-h-[82vh] rounded-xl bg-white p-1 shadow-2xl">
+                <img id="lightbox-img" src="" alt="ภาพขยาย" class="max-w-full h-auto object-contain rounded-lg">
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== สคริปต์ควบคุมการทำงาน (JavaScript) ==================== -->
+    <script>
+        // 1. ควบคุมการเปิด-ปิดเมนู Hamburger บนมือถือ
+        const hamburgerBtn = document.getElementById('hamburger-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const hamburgerIcon = document.getElementById('hamburger-icon');
+
+        hamburgerBtn.addEventListener('click', () => {
+            const isHidden = mobileMenu.classList.contains('hidden');
+            if (isHidden) {
+                mobileMenu.classList.remove('hidden');
+                hamburgerIcon.classList.remove('fa-bars');
+                hamburgerIcon.classList.add('fa-xmark');
+            } else {
+                mobileMenu.classList.add('hidden');
+                hamburgerIcon.classList.remove('fa-xmark');
+                hamburgerIcon.classList.add('fa-bars');
+            }
+        });
+
+        // 2. ฟังก์ชันสลับหน้าแท็บ (Tab Switching)
+        function switchTab(tabId) {
+            // ซ่อนเนื้อหาทุกแท็บ
+            document.querySelectorAll('.tab-content').forEach(sec => {
+                sec.classList.remove('active');
+            });
+
+            // แสดงเนื้อหาแท็บที่เลือก
+            const targetSection = document.getElementById('tab-' + tabId);
+            if (targetSection) {
+                targetSection.classList.add('active');
+            }
+
+            // อัปเดตสถานะปุ่มเมนู Desktop
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('bg-white/20', 'text-white', 'shadow-sm', 'border-b-2', 'border-[#8cc63f]');
+                btn.classList.add('text-white/90');
+            });
+            const activeNav = document.getElementById('nav-' + tabId);
+            if (activeNav) {
+                activeNav.classList.add('bg-white/20', 'text-white', 'shadow-sm', 'border-b-2', 'border-[#8cc63f]');
+                activeNav.classList.remove('text-white/90');
+            }
+
+            // อัปเดตสถานะปุ่มเมนู Mobile
+            document.querySelectorAll('.m-nav-btn').forEach(btn => {
+                btn.classList.remove('bg-white/20', 'text-white');
+                btn.classList.add('text-white/90');
+            });
+            const activeMobileNav = document.getElementById('m-nav-' + tabId);
+            if (activeMobileNav) {
+                activeMobileNav.classList.add('bg-white/20', 'text-white');
+                activeMobileNav.classList.remove('text-white/90');
+            }
+
+            // เลื่อนหน้าจอขึ้นด้านบนสุดอย่างนุ่มนวล
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // 3. ฟังก์ชันสลับแท็บจากเมนูมือถือพร้อมปิด Hamburger อัตโนมัติ
+        function switchTabMobile(tabId) {
+            switchTab(tabId);
+            mobileMenu.classList.add('hidden');
+            hamburgerIcon.classList.remove('fa-xmark');
+            hamburgerIcon.classList.add('fa-bars');
+        }
+
+        // 4. ฟังก์ชันขยายรูปภาพ (Lightbox)
+        function openLightbox(imgSrc, title) {
+            const modal = document.getElementById('lightbox-modal');
+            const img = document.getElementById('lightbox-img');
+            const titleEl = document.getElementById('lightbox-title');
+            
+            img.src = imgSrc;
+            titleEl.textContent = title;
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            const modal = document.getElementById('lightbox-modal');
+            modal.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        // ปิด Lightbox เมื่อกดปุ่ม ESC
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeLightbox();
+        });
+    </script>
+</body>
+</html>
