@@ -1,2 +1,0 @@
-# psu
-Portfolio Thanawat Nuntanalin
